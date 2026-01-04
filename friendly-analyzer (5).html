@@ -426,37 +426,26 @@
       padding: 16px 20px;
     }
 
-    .match-top-row {
+    .match-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      gap: 12px;
     }
 
-    .match-basic-info {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
+    .match-title-section {
       flex: 1;
     }
 
-    .match-score {
-      font-size: 24px;
+    .match-teams-title {
+      font-size: 18px;
       font-weight: 700;
       color: #EEFF00;
-      min-width: 80px;
+      margin-bottom: 4px;
     }
 
-    .match-teams {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .match-date {
+    .match-meta {
       font-size: 12px;
       color: #94a3b8;
     }
@@ -480,52 +469,99 @@
       transform: rotate(180deg);
     }
 
-    .match-stats-preview {
+    .match-score-big {
+      font-size: 32px;
+      font-weight: 800;
+      color: #EEFF00;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .match-quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .quick-stat-card {
+      background: rgba(30, 41, 59, 0.8);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .quick-stat-label {
+      font-size: 11px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .quick-stat-values {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .quick-stat-home {
+      color: #EEFF00;
+    }
+
+    .quick-stat-separator {
+      color: #64748b;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .quick-stat-away {
+      color: #94a3b8;
+    }
+
+    .match-details {
+      display: none;
+      padding: 20px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .match-item.expanded .match-details {
+      display: block;
+    }
+
+    .full-stats-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #EEFF00;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .full-stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
-      margin-top: 16px;
+      margin-bottom: 24px;
     }
 
-    .team-stats-preview {
+    .team-full-stats {
       background: rgba(30, 41, 59, 0.8);
       padding: 16px;
       border-radius: 10px;
       border: 1px solid rgba(148, 163, 184, 0.2);
     }
 
-    .team-stats-preview h4 {
+    .team-full-stats h4 {
       color: #EEFF00;
       margin-bottom: 12px;
       font-size: 15px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .team-overall {
-      font-size: 20px;
-      font-weight: 800;
-      color: #FFF76B;
-    }
-
-    .formation-display {
-      background: rgba(15, 23, 42, 0.6);
-      padding: 8px 12px;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 13px;
-      color: #cbd5e1;
-      margin-bottom: 12px;
-    }
-
-    .formation-type {
-      font-weight: 700;
-      color: #EEFF00;
-      font-size: 14px;
     }
 
     .stat-row {
@@ -547,17 +583,6 @@
     .stat-row .value {
       color: #f1f5f9;
       font-weight: 600;
-    }
-
-    .match-details {
-      display: none;
-      padding: 20px;
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(15, 23, 42, 0.4);
-    }
-
-    .match-item.expanded .match-details {
-      display: block;
     }
 
     .players-section-title {
@@ -716,7 +741,11 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .match-stats-preview {
+      .match-quick-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .full-stats-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -812,21 +841,27 @@
               <th data-col="goals">Goals</th>
               <th data-col="assists">Assists</th>
               <th data-col="xg">xG</th>
+              <th data-col="xgPerShot">xG/Shot</th>
               <th data-col="shots">Shots</th>
               <th data-col="sot">SoT</th>
+              <th data-col="shotAcc">Shot%</th>
               <th data-col="chancesCreated">Chances</th>
               <th data-col="passes">Passes</th>
               <th data-col="passAcc">Pass%</th>
               <th data-col="crosses">Crosses</th>
               <th data-col="crossAcc">Cross%</th>
               <th data-col="dribbles">Dribbles</th>
+              <th data-col="dribbleRate">Drb%</th>
               <th data-col="dribbledPast">Drb Past</th>
               <th data-col="defDuels">Def Duels%</th>
               <th data-col="clearances">Clear</th>
               <th data-col="blocks">Blocks</th>
+              <th data-col="possValue">Poss Val</th>
               <th data-col="fouls">Fouls</th>
               <th data-col="yc">YC</th>
               <th data-col="rc">RC</th>
+              <th data-col="ownGoals">OG</th>
+              <th data-col="shotsIntercepted">Sh Int</th>
               <th data-col="saves">Saves</th>
               <th data-col="goalsConceded">GC</th>
             </tr>
@@ -999,6 +1034,22 @@
       return playerMap;
     }
 
+    function extractClubNames(formationsData) {
+      let homeName = 'Home Team';
+      let awayName = 'Away Team';
+
+      if (formationsData) {
+        if (formationsData.home?.name) {
+          homeName = formationsData.home.name;
+        }
+        if (formationsData.away?.name) {
+          awayName = formationsData.away.name;
+        }
+      }
+
+      return { homeName, awayName };
+    }
+
     async function loadMatches() {
       const clubIdInput = document.getElementById('club-id').value.trim();
       const limitInput = document.getElementById('game-limit').value;
@@ -1037,7 +1088,6 @@
             const report = await fetchMatchReport(matchId);
             const formations = await fetchMatchFormations(matchId);
 
-            // Extract player names from formations
             if (formations) {
               const names = extractPlayerNamesFromFormations(formations);
               Object.assign(playerNamesCache, names);
@@ -1058,12 +1108,9 @@
           }
         }
 
-        console.log(`[Player Names] Loaded ${Object.keys(playerNamesCache).length} player names from formations`);
-        console.log('[Player Names] Sample:', Object.entries(playerNamesCache).slice(0, 5));
-
         allMatches = matchReports;
         renderAll();
-        setStatus(`Successfully loaded ${allMatches.length} matches with ${Object.keys(playerNamesCache).length} player names!`, 'success');
+        setStatus(`Successfully loaded ${allMatches.length} matches!`, 'success');
 
       } catch (e) {
         console.error('Error loading matches:', e);
@@ -1090,11 +1137,9 @@
         const report = await fetchMatchReport(matchIdInput);
         const formations = await fetchMatchFormations(matchIdInput);
 
-        // Extract player names from formations
         if (formations) {
           const names = extractPlayerNamesFromFormations(formations);
           Object.assign(playerNamesCache, names);
-          console.log(`[Add Match] Added ${Object.keys(names).length} new player names`);
         }
 
         allMatches.push({
@@ -1140,7 +1185,12 @@
         crossAccuracy: 0,
         fouls: 0,
         yellowCards: 0,
-        redCards: 0
+        redCards: 0,
+        defensiveDuelsWon: 0,
+        dribbledPast: 0,
+        shotsBlocked: 0,
+        ownGoals: 0,
+        cleanSheets: 0
       };
 
       const awayStats = {
@@ -1156,7 +1206,12 @@
         crossAccuracy: 0,
         fouls: 0,
         yellowCards: 0,
-        redCards: 0
+        redCards: 0,
+        defensiveDuelsWon: 0,
+        dribbledPast: 0,
+        shotsBlocked: 0,
+        ownGoals: 0,
+        cleanSheets: 0
       };
 
       let homeTotalPasses = 0;
@@ -1174,6 +1229,8 @@
         const away = match.report?.away;
 
         if (home && home.playersStats) {
+          let homeGoalsConceded = 0;
+
           home.playersStats.forEach(player => {
             homeStats.goals += player.goals || 0;
             homeStats.xG += player.xG || 0;
@@ -1182,6 +1239,11 @@
             homeStats.fouls += player.foulsCommitted || 0;
             homeStats.yellowCards += player.yellowCards || 0;
             homeStats.redCards += player.redCards || 0;
+            homeStats.defensiveDuelsWon += player.defensiveDuelsWon || 0;
+            homeStats.dribbledPast += player.dribbledPast || 0;
+            homeStats.shotsBlocked += player.shotsInterceptions || 0;
+            homeStats.ownGoals += player.ownGoals || 0;
+            homeGoalsConceded += player.goalsConceded || 0;
 
             if (player.passes) {
               homeTotalPasses += player.passes;
@@ -1194,6 +1256,10 @@
             }
           });
 
+          if (homeGoalsConceded === 0) {
+            homeStats.cleanSheets++;
+          }
+
           const homePasses = home.playersStats.reduce((sum, p) => sum + (p.passes || 0), 0);
           const awayPasses = away?.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
           const totalPassesMatch = homePasses + awayPasses;
@@ -1203,6 +1269,8 @@
         }
 
         if (away && away.playersStats) {
+          let awayGoalsConceded = 0;
+
           away.playersStats.forEach(player => {
             awayStats.goals += player.goals || 0;
             awayStats.xG += player.xG || 0;
@@ -1211,6 +1279,11 @@
             awayStats.fouls += player.foulsCommitted || 0;
             awayStats.yellowCards += player.yellowCards || 0;
             awayStats.redCards += player.redCards || 0;
+            awayStats.defensiveDuelsWon += player.defensiveDuelsWon || 0;
+            awayStats.dribbledPast += player.dribbledPast || 0;
+            awayStats.shotsBlocked += player.shotsInterceptions || 0;
+            awayStats.ownGoals += player.ownGoals || 0;
+            awayGoalsConceded += player.goalsConceded || 0;
 
             if (player.passes) {
               awayTotalPasses += player.passes;
@@ -1222,6 +1295,10 @@
               awayAccurateCrosses += player.crossesAccurate || 0;
             }
           });
+
+          if (awayGoalsConceded === 0) {
+            awayStats.cleanSheets++;
+          }
 
           const homePasses = home?.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
           const awayPasses = away.playersStats.reduce((sum, p) => sum + (p.passes || 0), 0);
@@ -1239,6 +1316,7 @@
       homeStats.xG = (homeStats.xG / mc).toFixed(2);
       homeStats.shots = (homeStats.shots / mc).toFixed(1);
       homeStats.shotsOnTarget = (homeStats.shotsOnTarget / mc).toFixed(1);
+      homeStats.shotAccuracy = homeStats.shots > 0 ? ((homeStats.shotsOnTarget / homeStats.shots) * 100).toFixed(1) : '0';
       homeStats.possession = (homeStats.possession / mc).toFixed(1);
       homeStats.passes = (homeTotalPasses / mc).toFixed(0);
       homeStats.passAccuracy = homeTotalPasses > 0 ? ((homeAccuratePasses / homeTotalPasses) * 100).toFixed(1) : '0';
@@ -1247,12 +1325,21 @@
       homeStats.fouls = (homeStats.fouls / mc).toFixed(1);
       homeStats.yellowCards = (homeStats.yellowCards / mc).toFixed(1);
       homeStats.redCards = (homeStats.redCards / mc).toFixed(2);
+      homeStats.defensiveDuelsWon = (homeStats.defensiveDuelsWon / mc).toFixed(1);
+      homeStats.dribbledPast = (homeStats.dribbledPast / mc).toFixed(1);
+      homeStats.totalDuels = ((homeStats.defensiveDuelsWon * mc + homeStats.dribbledPast * mc) / mc).toFixed(1);
+      homeStats.defDuelWinRate = (homeStats.defensiveDuelsWon * mc + homeStats.dribbledPast * mc) > 0 
+        ? ((homeStats.defensiveDuelsWon * mc / (homeStats.defensiveDuelsWon * mc + homeStats.dribbledPast * mc)) * 100).toFixed(1) 
+        : '0';
+      homeStats.shotsBlocked = (homeStats.shotsBlocked / mc).toFixed(1);
+      homeStats.ownGoals = (homeStats.ownGoals / mc).toFixed(2);
 
       // Away averages
       awayStats.goals = (awayStats.goals / mc).toFixed(2);
       awayStats.xG = (awayStats.xG / mc).toFixed(2);
       awayStats.shots = (awayStats.shots / mc).toFixed(1);
       awayStats.shotsOnTarget = (awayStats.shotsOnTarget / mc).toFixed(1);
+      awayStats.shotAccuracy = awayStats.shots > 0 ? ((awayStats.shotsOnTarget / awayStats.shots) * 100).toFixed(1) : '0';
       awayStats.possession = (awayStats.possession / mc).toFixed(1);
       awayStats.passes = (awayTotalPasses / mc).toFixed(0);
       awayStats.passAccuracy = awayTotalPasses > 0 ? ((awayAccuratePasses / awayTotalPasses) * 100).toFixed(1) : '0';
@@ -1261,6 +1348,14 @@
       awayStats.fouls = (awayStats.fouls / mc).toFixed(1);
       awayStats.yellowCards = (awayStats.yellowCards / mc).toFixed(1);
       awayStats.redCards = (awayStats.redCards / mc).toFixed(2);
+      awayStats.defensiveDuelsWon = (awayStats.defensiveDuelsWon / mc).toFixed(1);
+      awayStats.dribbledPast = (awayStats.dribbledPast / mc).toFixed(1);
+      awayStats.totalDuels = ((awayStats.defensiveDuelsWon * mc + awayStats.dribbledPast * mc) / mc).toFixed(1);
+      awayStats.defDuelWinRate = (awayStats.defensiveDuelsWon * mc + awayStats.dribbledPast * mc) > 0 
+        ? ((awayStats.defensiveDuelsWon * mc / (awayStats.defensiveDuelsWon * mc + awayStats.dribbledPast * mc)) * 100).toFixed(1) 
+        : '0';
+      awayStats.shotsBlocked = (awayStats.shotsBlocked / mc).toFixed(1);
+      awayStats.ownGoals = (awayStats.ownGoals / mc).toFixed(2);
 
       return { home: homeStats, away: awayStats };
     }
@@ -1278,7 +1373,6 @@
           const pid = String(player.playerId);
 
           if (!playerAggregates[pid]) {
-            // Get player name from cache
             const cachedName = playerNamesCache[pid];
             const playerName = cachedName || `Player ${pid}`;
 
@@ -1302,9 +1396,11 @@
               defensiveDuelsTotal: 0,
               clearances: 0,
               shotsInterceptions: 0,
+              shotsIntercepted: 0,
               fouls: 0,
               yellowCards: 0,
               redCards: 0,
+              ownGoals: 0,
               saves: 0,
               goalsConceded: 0,
               ratingSum: 0,
@@ -1330,9 +1426,11 @@
           agg.defensiveDuelsTotal += (player.defensiveDuelsWon || 0) + (player.dribbledPast || 0);
           agg.clearances += player.clearances || 0;
           agg.shotsInterceptions += player.shotsInterceptions || 0;
+          agg.shotsIntercepted += player.shotsIntercepted || 0;
           agg.fouls += player.foulsCommitted || 0;
           agg.yellowCards += player.yellowCards || 0;
           agg.redCards += player.redCards || 0;
+          agg.ownGoals += player.ownGoals || 0;
           agg.saves += player.saves || 0;
           agg.goalsConceded += player.goalsConceded || 0;
           agg.ratingSum += player.rating || 0;
@@ -1385,6 +1483,10 @@
           <div class="stat-value">${stats.home.shotsOnTarget}</div>
         </div>
         <div class="stat-item">
+          <div class="stat-label">Shot Accuracy</div>
+          <div class="stat-value">${stats.home.shotAccuracy}%</div>
+        </div>
+        <div class="stat-item">
           <div class="stat-label">Possession</div>
           <div class="stat-value">${stats.home.possession}%</div>
         </div>
@@ -1403,6 +1505,26 @@
         <div class="stat-item">
           <div class="stat-label">Cross Accuracy</div>
           <div class="stat-value">${stats.home.crossAccuracy}%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Def Duel Win %</div>
+          <div class="stat-value">${stats.home.defDuelWinRate}%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Total Duels</div>
+          <div class="stat-value">${stats.home.totalDuels}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Shots Blocked</div>
+          <div class="stat-value">${stats.home.shotsBlocked}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Clean Sheets</div>
+          <div class="stat-value">${stats.home.cleanSheets}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Own Goals</div>
+          <div class="stat-value">${stats.home.ownGoals}</div>
         </div>
         <div class="stat-item">
           <div class="stat-label">Fouls</div>
@@ -1444,6 +1566,10 @@
           <div class="stat-value">${stats.away.shotsOnTarget}</div>
         </div>
         <div class="stat-item">
+          <div class="stat-label">Shot Accuracy</div>
+          <div class="stat-value">${stats.away.shotAccuracy}%</div>
+        </div>
+        <div class="stat-item">
           <div class="stat-label">Possession</div>
           <div class="stat-value">${stats.away.possession}%</div>
         </div>
@@ -1462,6 +1588,26 @@
         <div class="stat-item">
           <div class="stat-label">Cross Accuracy</div>
           <div class="stat-value">${stats.away.crossAccuracy}%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Def Duel Win %</div>
+          <div class="stat-value">${stats.away.defDuelWinRate}%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Total Duels</div>
+          <div class="stat-value">${stats.away.totalDuels}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Shots Blocked</div>
+          <div class="stat-value">${stats.away.shotsBlocked}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Clean Sheets</div>
+          <div class="stat-value">${stats.away.cleanSheets}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Own Goals</div>
+          <div class="stat-value">${stats.away.ownGoals}</div>
         </div>
         <div class="stat-item">
           <div class="stat-label">Fouls</div>
@@ -1515,6 +1661,10 @@
             valA = a.xG;
             valB = b.xG;
             break;
+          case 'xgPerShot':
+            valA = a.shots > 0 ? (a.xG / a.shots) : 0;
+            valB = b.shots > 0 ? (b.xG / b.shots) : 0;
+            break;
           case 'shots':
             valA = a.shots;
             valB = b.shots;
@@ -1522,6 +1672,10 @@
           case 'sot':
             valA = a.shotsOnTarget;
             valB = b.shotsOnTarget;
+            break;
+          case 'shotAcc':
+            valA = a.shots > 0 ? (a.shotsOnTarget / a.shots) : 0;
+            valB = b.shots > 0 ? (b.shotsOnTarget / b.shots) : 0;
             break;
           case 'chancesCreated':
             valA = a.chancesCreated;
@@ -1547,6 +1701,10 @@
             valA = a.dribblingSuccess;
             valB = b.dribblingSuccess;
             break;
+          case 'dribbleRate':
+            valA = (a.dribblingSuccess + a.dribbledPast) > 0 ? (a.dribblingSuccess / (a.dribblingSuccess + a.dribbledPast)) : 0;
+            valB = (b.dribblingSuccess + b.dribbledPast) > 0 ? (b.dribblingSuccess / (b.dribblingSuccess + b.dribbledPast)) : 0;
+            break;
           case 'dribbledPast':
             valA = a.dribbledPast;
             valB = b.dribbledPast;
@@ -1563,6 +1721,10 @@
             valA = a.shotsInterceptions;
             valB = b.shotsInterceptions;
             break;
+          case 'possValue':
+            valA = (a.passes + a.dribblingSuccess) - (a.passes - a.passesAccurate);
+            valB = (b.passes + b.dribblingSuccess) - (b.passes - b.passesAccurate);
+            break;
           case 'fouls':
             valA = a.fouls;
             valB = b.fouls;
@@ -1574,6 +1736,14 @@
           case 'rc':
             valA = a.redCards;
             valB = b.redCards;
+            break;
+          case 'ownGoals':
+            valA = a.ownGoals;
+            valB = b.ownGoals;
+            break;
+          case 'shotsIntercepted':
+            valA = a.shotsIntercepted;
+            valB = b.shotsIntercepted;
             break;
           case 'saves':
             valA = a.saves;
@@ -1609,7 +1779,6 @@
       const tbody = document.getElementById('player-detail-body');
       tbody.innerHTML = '';
 
-      // Update sort indicators
       document.querySelectorAll('#player-detail-table th').forEach(th => {
         const indicator = th.querySelector('.sort-indicator');
         if (indicator) indicator.remove();
@@ -1625,11 +1794,16 @@
 
       players.forEach(player => {
         const avgRating = (player.ratingSum / player.appearances).toFixed(2);
+        const xgPerShot = player.shots > 0 ? (player.xG / player.shots).toFixed(2) : '0.00';
+        const shotAcc = player.shots > 0 ? ((player.shotsOnTarget / player.shots) * 100).toFixed(1) : '0';
         const passAcc = player.passes > 0 ? ((player.passesAccurate / player.passes) * 100).toFixed(1) : '0';
         const crossAcc = player.crosses > 0 ? ((player.crossesAccurate / player.crosses) * 100).toFixed(1) : '0';
+        const dribbleRate = (player.dribblingSuccess + player.dribbledPast) > 0 
+          ? ((player.dribblingSuccess / (player.dribblingSuccess + player.dribbledPast)) * 100).toFixed(1) 
+          : '0';
         const defDuelsPct = player.defensiveDuelsTotal > 0 ? ((player.defensiveDuelsWon / player.defensiveDuelsTotal) * 100).toFixed(1) : '0';
+        const possValue = (player.passes + player.dribblingSuccess) - (player.passes - player.passesAccurate);
 
-        // Sort positions by POSITION_ORDER
         const positionsArray = Array.from(player.positions).sort((a, b) => {
           const indexA = POSITION_ORDER.indexOf(a);
           const indexB = POSITION_ORDER.indexOf(b);
@@ -1646,21 +1820,27 @@
           <td>${player.goals}</td>
           <td>${player.assists}</td>
           <td>${player.xG.toFixed(2)}</td>
+          <td>${xgPerShot}</td>
           <td>${player.shots}</td>
           <td>${player.shotsOnTarget}</td>
+          <td>${shotAcc}%</td>
           <td>${player.chancesCreated}</td>
           <td>${player.passes}</td>
           <td>${passAcc}%</td>
           <td>${player.crosses}</td>
           <td>${crossAcc}%</td>
           <td>${player.dribblingSuccess}</td>
+          <td>${dribbleRate}%</td>
           <td>${player.dribbledPast}</td>
           <td>${defDuelsPct}%</td>
           <td>${player.clearances}</td>
           <td>${player.shotsInterceptions}</td>
+          <td>${possValue}</td>
           <td>${player.fouls}</td>
           <td>${player.yellowCards}</td>
           <td>${player.redCards}</td>
+          <td>${player.ownGoals}</td>
+          <td>${player.shotsIntercepted}</td>
           <td>${player.saves}</td>
           <td>${player.goalsConceded}</td>
         `;
@@ -1693,14 +1873,19 @@
         const homeStats = aggregateTeamStats(home.playersStats);
         const awayStats = aggregateTeamStats(away.playersStats);
 
-        // Get formation types and overall ratings
         let homeFormationType = '-';
         let awayFormationType = '-';
         let homeXIOverall = 0;
         let awayXIOverall = 0;
+        let homeName = 'Home Team';
+        let awayName = 'Away Team';
 
         if (formations) {
           const playerMap = extractPlayerMapFromFormations(formations);
+          const clubNames = extractClubNames(formations);
+
+          homeName = clubNames.homeName;
+          awayName = clubNames.awayName;
 
           if (formations.homeFormation) {
             homeFormationType = formations.homeFormation.type || '-';
@@ -1713,6 +1898,12 @@
           }
         }
 
+        const homePasses = home.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
+        const awayPasses = away.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
+        const totalPasses = homePasses + awayPasses;
+        const homePossession = totalPasses > 0 ? ((homePasses / totalPasses) * 100).toFixed(1) : '50.0';
+        const awayPossession = totalPasses > 0 ? ((awayPasses / totalPasses) * 100).toFixed(1) : '50.0';
+
         const matchDiv = document.createElement('div');
         matchDiv.className = 'match-item';
 
@@ -1720,13 +1911,10 @@
         matchMain.className = 'match-main';
 
         matchMain.innerHTML = `
-          <div class="match-top-row">
-            <div class="match-basic-info">
-              <div class="match-score">${homeGoals} - ${awayGoals}</div>
-              <div class="match-teams">
-                <div style="font-weight: 600; color: #EEFF00;">Home vs Away</div>
-                <div class="match-date">${new Date(match.date).toLocaleString()} | ID: ${match.matchId}</div>
-              </div>
+          <div class="match-header-row">
+            <div class="match-title-section">
+              <div class="match-teams-title">${homeName} vs ${awayName}</div>
+              <div class="match-meta">${new Date(match.date).toLocaleString()} | ID: ${match.matchId}</div>
             </div>
             <div class="match-actions">
               <button class="btn btn-danger" onclick="deleteMatch('${match.matchId}')">🗑️ Delete</button>
@@ -1734,44 +1922,90 @@
             </div>
           </div>
 
-          <div class="match-stats-preview">
-            <div class="team-stats-preview">
-              <h4>
-                🏠 Home Team
-                <span class="team-overall">${homeXIOverall}</span>
-              </h4>
-              <div class="formation-display">
-                <div class="formation-type">${homeFormationType}</div>
+          <div class="match-score-big">${homeGoals} - ${awayGoals}</div>
+
+          <div class="match-quick-stats">
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">Formation</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homeFormationType}</span>
+                <span class="quick-stat-separator">vs</span>
+                <span class="quick-stat-away">${awayFormationType}</span>
               </div>
-              ${renderTeamStatsPreview(homeStats)}
             </div>
-            <div class="team-stats-preview">
-              <h4>
-                ✈️ Away Team
-                <span class="team-overall">${awayXIOverall}</span>
-              </h4>
-              <div class="formation-display">
-                <div class="formation-type">${awayFormationType}</div>
+
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">XI Overall</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homeXIOverall}</span>
+                <span class="quick-stat-separator">vs</span>
+                <span class="quick-stat-away">${awayXIOverall}</span>
               </div>
-              ${renderTeamStatsPreview(awayStats)}
+            </div>
+
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">xG</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homeStats.xG.toFixed(2)}</span>
+                <span class="quick-stat-separator">-</span>
+                <span class="quick-stat-away">${awayStats.xG.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">Shots</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homeStats.shots}</span>
+                <span class="quick-stat-separator">-</span>
+                <span class="quick-stat-away">${awayStats.shots}</span>
+              </div>
+            </div>
+
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">Shots on Target</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homeStats.shotsOnTarget}</span>
+                <span class="quick-stat-separator">-</span>
+                <span class="quick-stat-away">${awayStats.shotsOnTarget}</span>
+              </div>
+            </div>
+
+            <div class="quick-stat-card">
+              <div class="quick-stat-label">Possession</div>
+              <div class="quick-stat-values">
+                <span class="quick-stat-home">${homePossession}%</span>
+                <span class="quick-stat-separator">-</span>
+                <span class="quick-stat-away">${awayPossession}%</span>
+              </div>
             </div>
           </div>
         `;
 
         matchDiv.appendChild(matchMain);
 
-        // Create expanded details section with player data
         const matchDetails = document.createElement('div');
         matchDetails.className = 'match-details';
         matchDetails.innerHTML = `
-          <div class="players-section-title">📋 Match Players & Performance</div>
+          <div class="full-stats-title">📊 Complete Match Statistics</div>
+          <div class="full-stats-grid">
+            <div class="team-full-stats">
+              <h4>🏠 ${homeName}</h4>
+              ${renderFullTeamStats(homeStats)}
+            </div>
+            <div class="team-full-stats">
+              <h4>✈️ ${awayName}</h4>
+              ${renderFullTeamStats(awayStats)}
+            </div>
+          </div>
+
+          <div class="players-section-title">👥 Match Players & Performance</div>
           <div class="players-grid">
             <div class="team-players-card">
-              <h5>🏠 Home Team Players</h5>
+              <h5>🏠 ${homeName} Players</h5>
               ${renderMatchPlayers(home.playersStats, playerNamesCache)}
             </div>
             <div class="team-players-card">
-              <h5>✈️ Away Team Players</h5>
+              <h5>✈️ ${awayName} Players</h5>
               ${renderMatchPlayers(away.playersStats, playerNamesCache)}
             </div>
           </div>
@@ -1779,7 +2013,6 @@
 
         matchDiv.appendChild(matchDetails);
 
-        // Add click handler to toggle
         matchMain.querySelector('.match-toggle').addEventListener('click', (e) => {
           e.stopPropagation();
           matchDiv.classList.toggle('expanded');
@@ -1789,11 +2022,16 @@
       });
     }
 
-    function renderTeamStatsPreview(stats) {
+    function renderFullTeamStats(stats) {
       if (!stats) return '<p>No stats available</p>';
 
       const passAcc = stats.passes > 0 ? ((stats.passesAccurate / stats.passes) * 100).toFixed(1) : '0';
       const crossAcc = stats.crosses > 0 ? ((stats.crossesAccurate / stats.crosses) * 100).toFixed(1) : '0';
+      const shotAcc = stats.shots > 0 ? ((stats.shotsOnTarget / stats.shots) * 100).toFixed(1) : '0';
+      const defDuelWinRate = (stats.defensiveDuelsWon + stats.dribbledPast) > 0 
+        ? ((stats.defensiveDuelsWon / (stats.defensiveDuelsWon + stats.dribbledPast)) * 100).toFixed(1) 
+        : '0';
+      const totalDuels = stats.defensiveDuelsWon + stats.dribbledPast;
 
       return `
         <div class="stat-row"><span class="label">Goals</span><span class="value">${stats.goals}</span></div>
@@ -1801,10 +2039,16 @@
         <div class="stat-row"><span class="label">xG</span><span class="value">${stats.xG.toFixed(2)}</span></div>
         <div class="stat-row"><span class="label">Shots</span><span class="value">${stats.shots}</span></div>
         <div class="stat-row"><span class="label">Shots on Target</span><span class="value">${stats.shotsOnTarget}</span></div>
+        <div class="stat-row"><span class="label">Shot Accuracy</span><span class="value">${shotAcc}%</span></div>
         <div class="stat-row"><span class="label">Passes</span><span class="value">${stats.passes}</span></div>
         <div class="stat-row"><span class="label">Pass Acc.</span><span class="value">${passAcc}%</span></div>
         <div class="stat-row"><span class="label">Crosses</span><span class="value">${stats.crosses}</span></div>
         <div class="stat-row"><span class="label">Cross Acc.</span><span class="value">${crossAcc}%</span></div>
+        <div class="stat-row"><span class="label">Chances Created</span><span class="value">${stats.chancesCreated}</span></div>
+        <div class="stat-row"><span class="label">Def Duel Win Rate</span><span class="value">${defDuelWinRate}%</span></div>
+        <div class="stat-row"><span class="label">Total Duels</span><span class="value">${totalDuels}</span></div>
+        <div class="stat-row"><span class="label">Shots Blocked</span><span class="value">${stats.shotsBlocked}</span></div>
+        <div class="stat-row"><span class="label">Own Goals</span><span class="value">${stats.ownGoals}</span></div>
         <div class="stat-row"><span class="label">Fouls</span><span class="value">${stats.fouls}</span></div>
         <div class="stat-row"><span class="label">Yellow Cards</span><span class="value">${stats.yellowCards}</span></div>
         <div class="stat-row"><span class="label">Red Cards</span><span class="value">${stats.redCards}</span></div>
@@ -1888,10 +2132,15 @@
         passesAccurate: 0,
         crosses: 0,
         crossesAccurate: 0,
+        chancesCreated: 0,
         fouls: 0,
         yellowCards: 0,
         redCards: 0,
-        avgRating: 0
+        avgRating: 0,
+        defensiveDuelsWon: 0,
+        dribbledPast: 0,
+        shotsBlocked: 0,
+        ownGoals: 0
       };
 
       playersStats.forEach(player => {
@@ -1904,10 +2153,15 @@
         stats.passesAccurate += player.passesAccurate || 0;
         stats.crosses += player.crosses || 0;
         stats.crossesAccurate += player.crossesAccurate || 0;
+        stats.chancesCreated += player.chancesCreated || 0;
         stats.fouls += player.foulsCommitted || 0;
         stats.yellowCards += player.yellowCards || 0;
         stats.redCards += player.redCards || 0;
         stats.avgRating += player.rating || 0;
+        stats.defensiveDuelsWon += player.defensiveDuelsWon || 0;
+        stats.dribbledPast += player.dribbledPast || 0;
+        stats.shotsBlocked += player.shotsInterceptions || 0;
+        stats.ownGoals += player.ownGoals || 0;
       });
 
       stats.avgRating = (stats.avgRating / playersStats.length).toFixed(2);
@@ -1938,10 +2192,17 @@
       const rows = [];
 
       rows.push([
-        'Match ID', 'Date', 'Score', 'Home Goals', 'Away Goals',
+        'Match ID', 'Date', 'Home Team', 'Away Team', 'Score', 'Home Goals', 'Away Goals',
         'Home xG', 'Away xG', 'Home Shots', 'Away Shots',
-        'Home SoT', 'Away SoT', 'Home Passes', 'Away Passes',
-        'Home Pass Acc%', 'Away Pass Acc%', 'Home Fouls', 'Away Fouls',
+        'Home SoT', 'Away SoT', 'Home Shot Acc%', 'Away Shot Acc%',
+        'Home Possession%', 'Away Possession%',
+        'Home Passes', 'Away Passes',
+        'Home Pass Acc%', 'Away Pass Acc%', 
+        'Home Def Duel Win%', 'Away Def Duel Win%',
+        'Home Total Duels', 'Away Total Duels',
+        'Home Shots Blocked', 'Away Shots Blocked',
+        'Home Own Goals', 'Away Own Goals',
+        'Home Fouls', 'Away Fouls',
         'Home YC', 'Away YC', 'Home RC', 'Away RC',
         'Home Avg Rating', 'Away Avg Rating',
         'Home Formation', 'Away Formation', 'Home XI Overall', 'Away XI Overall'
@@ -1961,14 +2222,38 @@
 
         const homePassAcc = homeStats.passes > 0 ? ((homeStats.passesAccurate / homeStats.passes) * 100).toFixed(1) : '0';
         const awayPassAcc = awayStats.passes > 0 ? ((awayStats.passesAccurate / awayStats.passes) * 100).toFixed(1) : '0';
+        const homeShotAcc = homeStats.shots > 0 ? ((homeStats.shotsOnTarget / homeStats.shots) * 100).toFixed(1) : '0';
+        const awayShotAcc = awayStats.shots > 0 ? ((awayStats.shotsOnTarget / awayStats.shots) * 100).toFixed(1) : '0';
+
+        const homePasses = home.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
+        const awayPasses = away.playersStats?.reduce((sum, p) => sum + (p.passes || 0), 0) || 0;
+        const totalPasses = homePasses + awayPasses;
+        const homePossession = totalPasses > 0 ? ((homePasses / totalPasses) * 100).toFixed(1) : '50.0';
+        const awayPossession = totalPasses > 0 ? ((awayPasses / totalPasses) * 100).toFixed(1) : '50.0';
+
+        const homeDefDuelWinRate = (homeStats.defensiveDuelsWon + homeStats.dribbledPast) > 0 
+          ? ((homeStats.defensiveDuelsWon / (homeStats.defensiveDuelsWon + homeStats.dribbledPast)) * 100).toFixed(1) 
+          : '0';
+        const awayDefDuelWinRate = (awayStats.defensiveDuelsWon + awayStats.dribbledPast) > 0 
+          ? ((awayStats.defensiveDuelsWon / (awayStats.defensiveDuelsWon + awayStats.dribbledPast)) * 100).toFixed(1) 
+          : '0';
+
+        const homeTotalDuels = homeStats.defensiveDuelsWon + homeStats.dribbledPast;
+        const awayTotalDuels = awayStats.defensiveDuelsWon + awayStats.dribbledPast;
 
         let homeFormationType = '-';
         let awayFormationType = '-';
         let homeXIOverall = 0;
         let awayXIOverall = 0;
+        let homeName = 'Home Team';
+        let awayName = 'Away Team';
 
         if (formations) {
           const playerMap = extractPlayerMapFromFormations(formations);
+          const clubNames = extractClubNames(formations);
+
+          homeName = clubNames.homeName;
+          awayName = clubNames.awayName;
 
           if (formations.homeFormation) {
             homeFormationType = formations.homeFormation.type || '-';
@@ -1984,6 +2269,8 @@
         rows.push([
           match.matchId,
           new Date(match.date).toISOString(),
+          homeName,
+          awayName,
           `${homeStats.goals}-${awayStats.goals}`,
           homeStats.goals,
           awayStats.goals,
@@ -1993,10 +2280,22 @@
           awayStats.shots,
           homeStats.shotsOnTarget,
           awayStats.shotsOnTarget,
+          homeShotAcc,
+          awayShotAcc,
+          homePossession,
+          awayPossession,
           homeStats.passes,
           awayStats.passes,
           homePassAcc,
           awayPassAcc,
+          homeDefDuelWinRate,
+          awayDefDuelWinRate,
+          homeTotalDuels,
+          awayTotalDuels,
+          homeStats.shotsBlocked,
+          awayStats.shotsBlocked,
+          homeStats.ownGoals,
+          awayStats.ownGoals,
           homeStats.fouls,
           awayStats.fouls,
           homeStats.yellowCards,
@@ -2041,7 +2340,6 @@
       if (e.key === 'Enter') addMatch();
     });
 
-    // Add click handlers for player table sorting
     document.querySelectorAll('#player-detail-table th[data-col]').forEach(th => {
       th.addEventListener('click', () => {
         const col = th.getAttribute('data-col');
