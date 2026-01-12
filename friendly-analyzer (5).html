@@ -401,6 +401,27 @@
       display: inline-block;
     }
 
+    .player-table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .player-table-controls-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .player-table-controls-right {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .player-detail-card {
       background: rgba(30, 41, 59, 0.85);
       padding: 20px;
@@ -432,6 +453,7 @@
       border-bottom: 2px solid rgba(148, 163, 184, 0.2);
       cursor: pointer;
       user-select: none;
+      position: relative;
     }
 
     .player-detail-table th:first-child {
@@ -445,6 +467,20 @@
 
     .player-detail-table th[title] {
       cursor: help;
+    }
+
+    .hide-col-btn {
+      display: inline-block;
+      margin-left: 4px;
+      color: #ef4444;
+      font-size: 10px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .player-detail-table th:hover .hide-col-btn {
+      opacity: 1;
     }
 
     .player-detail-table tbody tr {
@@ -476,11 +512,51 @@
       border-bottom-right-radius: 6px;
     }
 
+    .player-detail-table tr.hidden-row {
+      display: none;
+    }
+
+    .player-detail-table th.hidden-col,
+    .player-detail-table td.hidden-col {
+      display: none;
+    }
+
     .sort-indicator {
       display: inline-block;
       margin-left: 4px;
       width: 8px;
       color: #eeff00;
+    }
+
+    .match-filter-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 2px solid rgba(148, 163, 184, 0.3);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(51, 65, 85, 0.6);
+      color: #cbd5e1;
+      font-family: inherit;
+    }
+
+    .filter-btn:hover {
+      border-color: #eeff00;
+      background: rgba(71, 85, 105, 0.8);
+    }
+
+    .filter-btn.active {
+      background: rgba(238, 255, 0, 0.2);
+      border-color: #eeff00;
+      color: #eeff00;
+      font-weight: 700;
     }
 
     .modal {
@@ -746,6 +822,13 @@
       color: #eeff00;
     }
 
+    .matches-header-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
     .matches-container {
       background: rgba(30, 41, 59, 0.85);
       padding: 0 24px 24px;
@@ -767,6 +850,10 @@
 
     .match-item:hover {
       border-color: #eeff00;
+    }
+
+    .match-item.filter-hidden {
+      display: none;
     }
 
     .match-main {
@@ -795,6 +882,18 @@
     .match-meta {
       font-size: 12px;
       color: #94a3b8;
+    }
+
+    .match-link {
+      color: #60a5fa;
+      text-decoration: none;
+      transition: color 0.2s;
+      margin-left: 8px;
+    }
+
+    .match-link:hover {
+      color: #eeff00;
+      text-decoration: underline;
     }
 
     .match-actions {
@@ -1176,6 +1275,7 @@
       </div>
     </div>
   </div>
+
   <div id="comparison-view" class="comparison-view">
     <div class="comparison-header">
       <h2>📊 Analysis Comparison</h2>
@@ -1230,44 +1330,55 @@
     <div class="player-detail-card">
       <div class="overview-title">👥 Player Performance Detail</div>
       <div class="overview-subtitle" id="player-detail-subtitle">Individual stats for all home players</div>
+      
+      <div class="player-table-controls">
+        <div class="player-table-controls-left">
+          <button id="restore-all-rows-btn" class="btn btn-secondary btn-small">↻ Restore All Rows</button>
+          <button id="restore-all-cols-btn" class="btn btn-secondary btn-small">↻ Restore All Columns</button>
+        </div>
+        <div class="player-table-controls-right">
+          <span style="color: #94a3b8; font-size: 11px;">Click column headers to sort • Hover headers to hide columns • Click row to hide</span>
+        </div>
+      </div>
+
       <div class="player-table-wrapper">
         <table id="player-detail-table" class="player-detail-table">
           <thead>
             <tr>
-              <th data-col="name">Player</th>
-              <th data-col="positions" title="Position">Pos</th>
-              <th data-col="apps" title="Appearances">Apps</th>
-              <th data-col="rating" title="Average Rating">Rating</th>
-              <th data-col="goals" title="Goals">G</th>
-              <th data-col="assists" title="Assists">A</th>
-              <th data-col="goalContribution" title="Goal Contribution (Goals + Assists)">G+A</th>
-              <th data-col="xg" title="Expected Goals">xG</th>
-              <th data-col="xgDiff" title="xG Overperformance (Goals - xG)">xG±</th>
-              <th data-col="conversionRate" title="Goal Conversion Rate %">Conv%</th>
-              <th data-col="xgPerShot" title="Expected Goals per Shot">xG/Shot</th>
-              <th data-col="shots" title="Shots">Shots</th>
-              <th data-col="sot" title="Shots on Target">SoT</th>
-              <th data-col="shotAcc" title="Shot Accuracy %">Shot%</th>
-              <th data-col="chancesCreated" title="Chances Created">Chances</th>
-              <th data-col="keyPassRate" title="Key Pass Rate %">Key%</th>
-              <th data-col="passes" title="Passes">Passes</th>
-              <th data-col="passAcc" title="Pass Accuracy %">Pass%</th>
-              <th data-col="crosses" title="Crosses">Cross</th>
-              <th data-col="crossAcc" title="Cross Accuracy %">Cross%</th>
-              <th data-col="dribbles" title="Successful Dribbles">Drib</th>
-              <th data-col="dribbledPast" title="Dribbled Past">Drb Past</th>
-              <th data-col="defDuels" title="Defensive Duel Win %">Def%</th>
-              <th data-col="clearances" title="Clearances">Clear</th>
-              <th data-col="blocks" title="Shots Blocked">Blocks</th>
-              <th data-col="shotsIntercepted" title="Shots Intercepted (Offensive)">Sh Int</th>
-              <th data-col="progressive" title="Progressive Actions (Accurate Passes + Dribbles)">Prog</th>
-              <th data-col="fouls" title="Fouls Committed">Fouls</th>
-              <th data-col="foulsSuffered" title="Fouls Suffered">FS</th>
-              <th data-col="yc" title="Yellow Cards">YC</th>
-              <th data-col="rc" title="Red Cards">RC</th>
-              <th data-col="ownGoals" title="Own Goals">OG</th>
-              <th data-col="saves" title="Saves">Saves</th>
-              <th data-col="goalsConceded" title="Goals Conceded">GC</th>
+              <th data-col="name">Player <span class="hide-col-btn" data-hide-col="name">✕</span></th>
+              <th data-col="positions" title="Position">Pos <span class="hide-col-btn" data-hide-col="positions">✕</span></th>
+              <th data-col="apps" title="Appearances">Apps <span class="hide-col-btn" data-hide-col="apps">✕</span></th>
+              <th data-col="rating" title="Average Rating">Rating <span class="hide-col-btn" data-hide-col="rating">✕</span></th>
+              <th data-col="goals" title="Goals">G <span class="hide-col-btn" data-hide-col="goals">✕</span></th>
+              <th data-col="assists" title="Assists">A <span class="hide-col-btn" data-hide-col="assists">✕</span></th>
+              <th data-col="goalContribution" title="Goal Contribution (Goals + Assists)">G+A <span class="hide-col-btn" data-hide-col="goalContribution">✕</span></th>
+              <th data-col="xg" title="Expected Goals">xG <span class="hide-col-btn" data-hide-col="xg">✕</span></th>
+              <th data-col="xgDiff" title="xG Overperformance (Goals - xG)">xG± <span class="hide-col-btn" data-hide-col="xgDiff">✕</span></th>
+              <th data-col="conversionRate" title="Goal Conversion Rate %">Conv% <span class="hide-col-btn" data-hide-col="conversionRate">✕</span></th>
+              <th data-col="xgPerShot" title="Expected Goals per Shot">xG/Shot <span class="hide-col-btn" data-hide-col="xgPerShot">✕</span></th>
+              <th data-col="shots" title="Shots">Shots <span class="hide-col-btn" data-hide-col="shots">✕</span></th>
+              <th data-col="sot" title="Shots on Target">SoT <span class="hide-col-btn" data-hide-col="sot">✕</span></th>
+              <th data-col="shotAcc" title="Shot Accuracy %">Shot% <span class="hide-col-btn" data-hide-col="shotAcc">✕</span></th>
+              <th data-col="chancesCreated" title="Chances Created">Chances <span class="hide-col-btn" data-hide-col="chancesCreated">✕</span></th>
+              <th data-col="keyPassRate" title="Key Pass Rate %">Key% <span class="hide-col-btn" data-hide-col="keyPassRate">✕</span></th>
+              <th data-col="passes" title="Passes">Passes <span class="hide-col-btn" data-hide-col="passes">✕</span></th>
+              <th data-col="passAcc" title="Pass Accuracy %">Pass% <span class="hide-col-btn" data-hide-col="passAcc">✕</span></th>
+              <th data-col="crosses" title="Crosses">Cross <span class="hide-col-btn" data-hide-col="crosses">✕</span></th>
+              <th data-col="crossAcc" title="Cross Accuracy %">Cross% <span class="hide-col-btn" data-hide-col="crossAcc">✕</span></th>
+              <th data-col="dribbles" title="Successful Dribbles">Drib <span class="hide-col-btn" data-hide-col="dribbles">✕</span></th>
+              <th data-col="dribbledPast" title="Dribbled Past">Drb Past <span class="hide-col-btn" data-hide-col="dribbledPast">✕</span></th>
+              <th data-col="defDuels" title="Defensive Duel Win %">Def% <span class="hide-col-btn" data-hide-col="defDuels">✕</span></th>
+              <th data-col="clearances" title="Clearances">Clear <span class="hide-col-btn" data-hide-col="clearances">✕</span></th>
+              <th data-col="blocks" title="Shots Blocked">Blocks <span class="hide-col-btn" data-hide-col="blocks">✕</span></th>
+              <th data-col="shotsIntercepted" title="Shots Intercepted (Offensive)">Sh Int <span class="hide-col-btn" data-hide-col="shotsIntercepted">✕</span></th>
+              <th data-col="progressive" title="Progressive Actions (Accurate Passes + Dribbles)">Prog <span class="hide-col-btn" data-hide-col="progressive">✕</span></th>
+              <th data-col="fouls" title="Fouls Committed">Fouls <span class="hide-col-btn" data-hide-col="fouls">✕</span></th>
+              <th data-col="foulsSuffered" title="Fouls Suffered">FS <span class="hide-col-btn" data-hide-col="foulsSuffered">✕</span></th>
+              <th data-col="yc" title="Yellow Cards">YC <span class="hide-col-btn" data-hide-col="yc">✕</span></th>
+              <th data-col="rc" title="Red Cards">RC <span class="hide-col-btn" data-hide-col="rc">✕</span></th>
+              <th data-col="ownGoals" title="Own Goals">OG <span class="hide-col-btn" data-hide-col="ownGoals">✕</span></th>
+              <th data-col="saves" title="Saves">Saves <span class="hide-col-btn" data-hide-col="saves">✕</span></th>
+              <th data-col="goalsConceded" title="Goals Conceded">GC <span class="hide-col-btn" data-hide-col="goalsConceded">✕</span></th>
             </tr>
           </thead>
           <tbody id="player-detail-body"></tbody>
@@ -1279,7 +1390,16 @@
   <div id="matches-section" class="matches-section">
     <div class="matches-header">
       <h2 id="matches-title">Match History</h2>
-      <button id="download-csv-btn" class="btn btn-secondary">📥 Download CSV</button>
+      
+      <div class="matches-header-controls">
+        <div class="match-filter-controls">
+          <button class="filter-btn active" data-filter="all">All Matches</button>
+          <button class="filter-btn" data-filter="wins">Wins Only</button>
+          <button class="filter-btn" data-filter="draws">Draws Only</button>
+          <button class="filter-btn" data-filter="losses">Losses Only</button>
+        </div>
+        <button id="download-csv-btn" class="btn btn-secondary">📥 Download CSV</button>
+      </div>
     </div>
     <div class="matches-container" id="matches-container"></div>
   </div>
@@ -1304,6 +1424,10 @@
       left: { column: "rating", asc: false },
       right: { column: "rating", asc: false },
     };
+    
+    let hiddenPlayerRows = new Set();
+    let hiddenPlayerCols = new Set();
+    let currentMatchFilter = "all";
 
     function loadSavedAnalyses() {
       const stored = localStorage.getItem("mfl_saved_analyses");
@@ -1468,44 +1592,6 @@
       showComparisonView(analysis1, analysis2);
     }
 
-    function showComparisonView(analysis1, analysis2) {
-      document.getElementById("overview-section").classList.remove("visible");
-      document.getElementById("matches-section").classList.remove("visible");
-      document.getElementById("comparison-view").classList.add("visible");
-
-      document.getElementById("comparison-name-1").textContent = analysis1.name;
-      document.getElementById("comparison-name-2").textContent = analysis2.name;
-
-      comparisonHiddenPlayerIds = new Set();
-
-      const comparisonContent = document.getElementById("comparison-content");
-      comparisonContent.innerHTML = `
-        <div class="comparison-column">
-          <div class="comparison-column-header">
-            <div class="comparison-column-title">${analysis1.name}</div>
-          </div>
-          <div class="comparison-column-content" id="comparison-col-left">
-            ${renderComparisonRecord(analysis1)}
-            ${renderComparisonTeamStats(analysis1)}
-            ${renderComparisonPlayerStats(analysis1, "left")}
-          </div>
-        </div>
-        <div class="comparison-column">
-          <div class="comparison-column-header">
-            <div class="comparison-column-title">${analysis2.name}</div>
-          </div>
-          <div class="comparison-column-content" id="comparison-col-right">
-            ${renderComparisonRecord(analysis2)}
-            ${renderComparisonTeamStats(analysis2)}
-            ${renderComparisonPlayerStats(analysis2, "right")}
-          </div>
-        </div>
-      `;
-
-      attachComparisonPlayerTableEvents("left", analysis1);
-      attachComparisonPlayerTableEvents("right", analysis2);
-    }
-
     function closeComparisonView() {
       document.getElementById("comparison-view").classList.remove("visible");
       if (allMatches.length > 0) {
@@ -1541,351 +1627,66 @@
 
       return { homeName, awayName };
     }
-    function renderComparisonRecord(analysis) {
-      const record = analysis.record;
-      const total = analysis.matchCount;
+
+    function calculateMatchRecord() {
+      if (allMatches.length === 0) return { wins: 0, draws: 0, losses: 0 };
+
+      let wins = 0, draws = 0, losses = 0;
+
+      allMatches.forEach((match) => {
+        const home = match.report?.home;
+        const away = match.report?.away;
+
+        if (!home || !away) return;
+
+        const homeGoals = home.playersStats?.reduce((sum, p) => sum + (p.goals || 0), 0) || 0;
+        const awayGoals = away.playersStats?.reduce((sum, p) => sum + (p.goals || 0), 0) || 0;
+
+        if (homeGoals > awayGoals) {
+          wins++;
+        } else if (homeGoals === awayGoals) {
+          draws++;
+        } else {
+          losses++;
+        }
+      });
+
+      return { wins, draws, losses };
+    }
+
+    // FIXED: Now adds wins/draws/losses counts to the Match Record tile
+    function renderMatchRecord() {
+      const record = calculateMatchRecord();
+      const total = allMatches.length;
+
+      if (total === 0) return;
+
       const winPct = ((record.wins / total) * 100).toFixed(1);
       const drawPct = ((record.draws / total) * 100).toFixed(1);
       const lossPct = ((record.losses / total) * 100).toFixed(1);
 
-      return `
-        <div class="record-summary">
-          <h3>📊 Match Record</h3>
-          <div class="record-stats">
-            <div class="record-item wins">
-              <div class="record-label">Wins</div>
-              <div class="record-value">${winPct}%</div>
-            </div>
-            <div class="record-item draws">
-              <div class="record-label">Draws</div>
-              <div class="record-value">${drawPct}%</div>
-            </div>
-            <div class="record-item losses">
-              <div class="record-label">Losses</div>
-              <div class="record-value">${lossPct}%</div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderComparisonTeamStats(analysis) {
-      const stats = analysis.teamStats;
-      if (!stats) return "<p>No team stats available</p>";
-
-      const homeXi = stats.home.xiOverall;
-      const awayXi = stats.away.xiOverall;
-
-      return `
-        <div class="overview-card" style="margin-bottom: 10px;">
-          <div class="overview-title">🏠 Home Team Performance</div>
-          <div class="overview-subtitle">Averages across ${stats.home.matches} matches</div>
-          <div class="stat-grid">
-            <div class="stat-item"><div class="stat-label">Goals</div><div class="stat-value">${stats.home.goals}</div></div>
-            <div class="stat-item"><div class="stat-label">xG</div><div class="stat-value">${stats.home.xG}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots</div><div class="stat-value">${stats.home.shots}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots on Target</div><div class="stat-value">${stats.home.shotsOnTarget}</div></div>
-            <div class="stat-item"><div class="stat-label">Shot Accuracy</div><div class="stat-value">${stats.home.shotAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Possession</div><div class="stat-value">${stats.home.possession}%</div></div>
-            <div class="stat-item"><div class="stat-label">Passes</div><div class="stat-value">${stats.home.passes}</div></div>
-            <div class="stat-item"><div class="stat-label">Pass Accuracy</div><div class="stat-value">${stats.home.passAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Crosses</div><div class="stat-value">${stats.home.crosses}</div></div>
-            <div class="stat-item"><div class="stat-label">Cross Accuracy</div><div class="stat-value">${stats.home.crossAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Def Duel Win %</div><div class="stat-value">${stats.home.defDuelWinRate}%</div></div>
-            <div class="stat-item"><div class="stat-label">Total Duels</div><div class="stat-value">${stats.home.totalDuels}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots Blocked</div><div class="stat-value">${stats.home.shotsBlocked}</div></div>
-            <div class="stat-item"><div class="stat-label">Clean Sheets</div><div class="stat-value">${stats.home.cleanSheets}</div></div>
-            <div class="stat-item"><div class="stat-label">Own Goals</div><div class="stat-value">${stats.home.ownGoals}</div></div>
-            <div class="stat-item"><div class="stat-label">Fouls</div><div class="stat-value">${stats.home.fouls}</div></div>
-            <div class="stat-item"><div class="stat-label">Yellow Cards</div><div class="stat-value">${stats.home.yellowCards}</div></div>
-            <div class="stat-item"><div class="stat-label">Red Cards</div><div class="stat-value">${stats.home.redCards}</div></div>
-          </div>
-          <div class="xi-overall-summary">
-            <span><strong>XI Overall (Home) Min:</strong> ${homeXi.min}</span>
-            <span><strong>Max:</strong> ${homeXi.max}</span>
-            <span><strong>Avg:</strong> ${homeXi.avg}</span>
-          </div>
-        </div>
-
-        <div class="overview-card">
-          <div class="overview-title">✈️ Away Team Average Performance</div>
-          <div class="overview-subtitle">Opponent averages</div>
-          <div class="stat-grid">
-            <div class="stat-item"><div class="stat-label">Goals</div><div class="stat-value">${stats.away.goals}</div></div>
-            <div class="stat-item"><div class="stat-label">xG</div><div class="stat-value">${stats.away.xG}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots</div><div class="stat-value">${stats.away.shots}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots on Target</div><div class="stat-value">${stats.away.shotsOnTarget}</div></div>
-            <div class="stat-item"><div class="stat-label">Shot Accuracy</div><div class="stat-value">${stats.away.shotAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Possession</div><div class="stat-value">${stats.away.possession}%</div></div>
-            <div class="stat-item"><div class="stat-label">Passes</div><div class="stat-value">${stats.away.passes}</div></div>
-            <div class="stat-item"><div class="stat-label">Pass Accuracy</div><div class="stat-value">${stats.away.passAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Crosses</div><div class="stat-value">${stats.away.crosses}</div></div>
-            <div class="stat-item"><div class="stat-label">Cross Accuracy</div><div class="stat-value">${stats.away.crossAccuracy}%</div></div>
-            <div class="stat-item"><div class="stat-label">Def Duel Win %</div><div class="stat-value">${stats.away.defDuelWinRate}%</div></div>
-            <div class="stat-item"><div class="stat-label">Total Duels</div><div class="stat-value">${stats.away.totalDuels}</div></div>
-            <div class="stat-item"><div class="stat-label">Shots Blocked</div><div class="stat-value">${stats.away.shotsBlocked}</div></div>
-            <div class="stat-item"><div class="stat-label">Clean Sheets</div><div class="stat-value">${stats.away.cleanSheets}</div></div>
-            <div class="stat-item"><div class="stat-label">Own Goals</div><div class="stat-value">${stats.away.ownGoals}</div></div>
-            <div class="stat-item"><div class="stat-label">Fouls</div><div class="stat-value">${stats.away.fouls}</div></div>
-            <div class="stat-item"><div class="stat-label">Yellow Cards</div><div class="stat-value">${stats.away.yellowCards}</div></div>
-            <div class="stat-item"><div class="stat-label">Red Cards</div><div class="stat-value">${stats.away.redCards}</div></div>
-          </div>
-          <div class="xi-overall-summary">
-            <span><strong>XI Overall (Away) Min:</strong> ${awayXi.min}</span>
-            <span><strong>Max:</strong> ${awayXi.max}</span>
-            <span><strong>Avg:</strong> ${awayXi.avg}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    function buildComparisonPlayersArray(playerStats) {
-      return Object.values(playerStats).map((p) => {
-        let posSet;
-        if (p.positions instanceof Set) {
-          posSet = p.positions;
-        } else if (Array.isArray(p.positions)) {
-          posSet = new Set(p.positions);
-        } else {
-          posSet = new Set();
-        }
-        return { ...p, positions: posSet };
-      });
-    }
-
-    function sortComparisonPlayers(players, column, asc) {
-      const direction = asc ? 1 : -1;
-      return [...players].sort((a, b) => {
-        let valA, valB;
-
-        switch (column) {
-          case "name": valA = a.playerName; valB = b.playerName; break;
-          case "positions": valA = getPositionSortValue(a.positions); valB = getPositionSortValue(b.positions); break;
-          case "apps": valA = a.appearances; valB = b.appearances; break;
-          case "rating": valA = a.ratingSum / a.appearances; valB = b.ratingSum / b.appearances; break;
-          case "goals": valA = a.goals; valB = b.goals; break;
-          case "assists": valA = a.assists; valB = b.assists; break;
-          case "goalContribution": valA = a.goals + a.assists; valB = b.goals + b.assists; break;
-          case "xg": valA = a.xG; valB = b.xG; break;
-          case "xgDiff": valA = a.goals - a.xG; valB = b.goals - b.xG; break;
-          case "conversionRate": valA = a.shots > 0 ? a.goals / a.shots : 0; valB = b.shots > 0 ? b.goals / b.shots : 0; break;
-          case "xgPerShot": valA = a.shots > 0 ? a.xG / a.shots : 0; valB = b.shots > 0 ? b.xG / b.shots : 0; break;
-          case "shots": valA = a.shots; valB = b.shots; break;
-          case "sot": valA = a.shotsOnTarget; valB = b.shotsOnTarget; break;
-          case "shotAcc": valA = a.shots > 0 ? a.shotsOnTarget / a.shots : 0; valB = b.shots > 0 ? b.shotsOnTarget / b.shots : 0; break;
-          case "chancesCreated": valA = a.chancesCreated; valB = b.chancesCreated; break;
-          case "keyPassRate": valA = a.passes > 0 ? a.chancesCreated / a.passes : 0; valB = b.passes > 0 ? b.chancesCreated / b.passes : 0; break;
-          case "passes": valA = a.passes; valB = b.passes; break;
-          case "passAcc": valA = a.passes > 0 ? a.passesAccurate / a.passes : 0; valB = b.passes > 0 ? b.passesAccurate / b.passes : 0; break;
-          case "crosses": valA = a.crosses; valB = b.crosses; break;
-          case "crossAcc": valA = a.crosses > 0 ? a.crossesAccurate / a.crosses : 0; valB = b.crosses > 0 ? b.crossesAccurate / b.crosses : 0; break;
-          case "dribbles": valA = a.dribblingSuccess; valB = b.dribblingSuccess; break;
-          case "dribbledPast": valA = a.dribbledPast; valB = b.dribbledPast; break;
-          case "defDuels": valA = a.defensiveDuelsTotal > 0 ? a.defensiveDuelsWon / a.defensiveDuelsTotal : 0; valB = b.defensiveDuelsTotal > 0 ? b.defensiveDuelsWon / b.defensiveDuelsTotal : 0; break;
-          case "clearances": valA = a.clearances; valB = b.clearances; break;
-          case "blocks": valA = a.shotsInterceptions; valB = b.shotsInterceptions; break;
-          case "shotsIntercepted": valA = a.shotsIntercepted; valB = b.shotsIntercepted; break;
-          case "progressive": valA = a.passesAccurate + a.dribblingSuccess; valB = b.passesAccurate + b.dribblingSuccess; break;
-          case "fouls": valA = a.fouls; valB = b.fouls; break;
-          case "foulsSuffered": valA = a.foulsSuffered; valB = b.foulsSuffered; break;
-          case "yc": valA = a.yellowCards; valB = b.yellowCards; break;
-          case "rc": valA = a.redCards; valB = b.redCards; break;
-          case "ownGoals": valA = a.ownGoals; valB = b.ownGoals; break;
-          case "saves": valA = a.saves; valB = b.saves; break;
-          case "goalsConceded": valA = a.goalsConceded; valB = b.goalsConceded; break;
-          default: valA = a.ratingSum / a.appearances; valB = b.ratingSum / b.appearances;
-        }
-
-        if (typeof valA === "string") {
-          return valA.localeCompare(valB) * direction;
-        }
-
-        return (valA - valB) * direction;
-      });
-    }
-
-    function renderComparisonPlayerStats(analysis, side) {
-      const playerStats = analysis.playerStats;
-      if (!playerStats) return "<p>No player stats available</p>";
-
-      const players = buildComparisonPlayersArray(playerStats);
-      const sortState = comparisonSortState[side];
-      const sortedPlayers = sortComparisonPlayers(players, sortState.column, sortState.asc);
-
-      let html = `
-        <div class="player-detail-card">
-          <div class="overview-title">👥 All Players</div>
-          <div class="overview-subtitle">${players.length} players</div>
-          <div class="comparison-player-table-controls">
-            <button class="btn btn-secondary btn-small" data-side="${side}" data-action="unhide-all">Unhide All</button>
-          </div>
-          <div class="player-table-wrapper">
-            <table class="player-detail-table" data-side="${side}">
-              <thead>
-                <tr>
-                  <th data-col="name">Player</th>
-                  <th data-col="positions" title="Position">Pos</th>
-                  <th data-col="apps" title="Appearances">Apps</th>
-                  <th data-col="rating" title="Average Rating">Rating</th>
-                  <th data-col="goals" title="Goals">G</th>
-                  <th data-col="assists" title="Assists">A</th>
-                  <th data-col="goalContribution" title="Goal Contribution (Goals + Assists)">G+A</th>
-                  <th data-col="xg" title="Expected Goals">xG</th>
-                  <th data-col="xgDiff" title="xG Overperformance (Goals - xG)">xG±</th>
-                  <th data-col="conversionRate" title="Goal Conversion Rate %">Conv%</th>
-                  <th data-col="xgPerShot" title="Expected Goals per Shot">xG/Shot</th>
-                  <th data-col="shots" title="Shots">Shots</th>
-                  <th data-col="sot" title="Shots on Target">SoT</th>
-                  <th data-col="shotAcc" title="Shot Accuracy %">Shot%</th>
-                  <th data-col="chancesCreated" title="Chances Created">Chances</th>
-                  <th data-col="keyPassRate" title="Key Pass Rate %">Key%</th>
-                  <th data-col="passes" title="Passes">Passes</th>
-                  <th data-col="passAcc" title="Pass Accuracy %">Pass%</th>
-                  <th data-col="crosses" title="Crosses">Cross</th>
-                  <th data-col="crossAcc" title="Cross Accuracy %">Cross%</th>
-                  <th data-col="dribbles" title="Successful Dribbles">Drib</th>
-                  <th data-col="dribbledPast" title="Dribbled Past">Drb Past</th>
-                  <th data-col="defDuels" title="Defensive Duel Win %">Def%</th>
-                  <th data-col="clearances" title="Clearances">Clear</th>
-                  <th data-col="blocks" title="Shots Blocked">Blocks</th>
-                  <th data-col="shotsIntercepted" title="Shots Intercepted (Offensive)">Sh Int</th>
-                  <th data-col="progressive" title="Progressive Actions (Accurate Passes + Dribbles)">Prog</th>
-                  <th data-col="fouls" title="Fouls Committed">Fouls</th>
-                  <th data-col="foulsSuffered" title="Fouls Suffered">FS</th>
-                  <th data-col="yc" title="Yellow Cards">YC</th>
-                  <th data-col="rc" title="Red Cards">RC</th>
-                  <th data-col="ownGoals" title="Own Goals">OG</th>
-                  <th data-col="saves" title="Saves">Saves</th>
-                  <th data-col="goalsConceded" title="Goals Conceded">GC</th>
-                  <th>Hide</th>
-                </tr>
-              </thead>
-              <tbody>
-      `;
-
-      sortedPlayers.forEach((player) => {
-        if (comparisonHiddenPlayerIds.has(player.playerId)) return;
-
-        const avgRating = (player.ratingSum / player.appearances).toFixed(2);
-        const goalContribution = player.goals + player.assists;
-        const xgDiff = (player.goals - player.xG).toFixed(2);
-        const conversionRate = player.shots > 0 ? ((player.goals / player.shots) * 100).toFixed(1) : "0";
-        const xgPerShot = player.shots > 0 ? (player.xG / player.shots).toFixed(2) : "0.00";
-        const shotAcc = player.shots > 0 ? ((player.shotsOnTarget / player.shots) * 100).toFixed(1) : "0";
-        const keyPassRate = player.passes > 0 ? ((player.chancesCreated / player.passes) * 100).toFixed(1) : "0";
-        const passAcc = player.passes > 0 ? ((player.passesAccurate / player.passes) * 100).toFixed(1) : "0";
-        const crossAcc = player.crosses > 0 ? ((player.crossesAccurate / player.crosses) * 100).toFixed(1) : "0";
-        const defDuelsPct = player.defensiveDuelsTotal > 0 ? ((player.defensiveDuelsWon / player.defensiveDuelsTotal) * 100).toFixed(1) : "0";
-        const progressive = player.passesAccurate + player.dribblingSuccess;
-
-        const positionsArray = Array.from(player.positions).sort((a, b) => {
-          const indexA = POSITION_ORDER.indexOf(a);
-          const indexB = POSITION_ORDER.indexOf(b);
-          return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
-        });
-        const positions = positionsArray.length > 0 ? positionsArray.join(" / ") : "-";
-
-        html += `
-          <tr data-player-id="${player.playerId}">
-            <td>${player.playerName}</td>
-            <td>${positions}</td>
-            <td>${player.appearances}</td>
-            <td>${avgRating}</td>
-            <td>${player.goals}</td>
-            <td>${player.assists}</td>
-            <td>${goalContribution}</td>
-            <td>${player.xG.toFixed(2)}</td>
-            <td>${xgDiff}</td>
-            <td>${conversionRate}%</td>
-            <td>${xgPerShot}</td>
-            <td>${player.shots}</td>
-            <td>${player.shotsOnTarget}</td>
-            <td>${shotAcc}%</td>
-            <td>${player.chancesCreated}</td>
-            <td>${keyPassRate}%</td>
-            <td>${player.passes}</td>
-            <td>${passAcc}%</td>
-            <td>${player.crosses}</td>
-            <td>${crossAcc}%</td>
-            <td>${player.dribblingSuccess}</td>
-            <td>${player.dribbledPast}</td>
-            <td>${defDuelsPct}%</td>
-            <td>${player.clearances}</td>
-            <td>${player.shotsInterceptions}</td>
-            <td>${player.shotsIntercepted}</td>
-            <td>${progressive}</td>
-            <td>${player.fouls}</td>
-            <td>${player.foulsSuffered}</td>
-            <td>${player.yellowCards}</td>
-            <td>${player.redCards}</td>
-            <td>${player.ownGoals}</td>
-            <td>${player.saves}</td>
-            <td>${player.goalsConceded}</td>
-            <td><button class="btn btn-danger btn-small" data-action="hide-row">Hide</button></td>
-          </tr>
-        `;
-      });
-
-      html += `
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-
-      return html;
-    }
-
-    function attachComparisonPlayerTableEvents(side, analysis) {
-      const colContainerId = side === "left" ? "comparison-col-left" : "comparison-col-right";
-      const colContainer = document.getElementById(colContainerId);
-      if (!colContainer) return;
-
-      const table = colContainer.querySelector(`.player-detail-table[data-side="${side}"]`);
-      if (!table) return;
-
-      const headers = table.querySelectorAll("th[data-col]");
-      headers.forEach((th) => {
-        th.addEventListener("click", () => {
-          const col = th.getAttribute("data-col");
-          if (comparisonSortState[side].column === col) {
-            comparisonSortState[side].asc = !comparisonSortState[side].asc;
-          } else {
-            comparisonSortState[side].column = col;
-            comparisonSortState[side].asc = false;
-          }
-
-          const updatedHtml = renderComparisonPlayerStats(analysis, side);
-          const card = colContainer.querySelector(".player-detail-card");
-          card.outerHTML = updatedHtml;
-          attachComparisonPlayerTableEvents(side, analysis);
-        });
-      });
-
-      colContainer.querySelectorAll("button[data-action='hide-row']").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const tr = btn.closest("tr");
-          const pid = tr.getAttribute("data-player-id");
-          if (pid) {
-            comparisonHiddenPlayerIds.add(pid);
-            tr.style.display = "none";
-          }
-        });
-      });
-
-      const unhideBtn = colContainer.querySelector("button[data-action='unhide-all']");
-      if (unhideBtn) {
-        unhideBtn.addEventListener("click", () => {
-          comparisonHiddenPlayerIds = new Set();
-          const updatedHtml = renderComparisonPlayerStats(analysis, side);
-          const card = colContainer.querySelector(".player-detail-card");
-          card.outerHTML = updatedHtml;
-          attachComparisonPlayerTableEvents(side, analysis);
-        });
+      document.getElementById("win-percentage").textContent = `${winPct}%`;
+      document.getElementById("draw-percentage").textContent = `${drawPct}%`;
+      document.getElementById("loss-percentage").textContent = `${lossPct}%`;
+      
+      const recordSummary = document.getElementById("record-summary");
+      const existingSummary = recordSummary.querySelector(".record-counts");
+      
+      if (existingSummary) {
+        existingSummary.remove();
       }
+      
+      const countsDiv = document.createElement("div");
+      countsDiv.className = "record-counts";
+      countsDiv.style.cssText = "margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.2); display: flex; justify-content: center; gap: 30px; font-size: 13px; color: #cbd5e1;";
+      countsDiv.innerHTML = `
+        <span><strong style="color: #4ade80;">Wins:</strong> ${record.wins}</span>
+        <span><strong style="color: #eeff00;">Draws:</strong> ${record.draws}</span>
+        <span><strong style="color: #ef4444;">Losses:</strong> ${record.losses}</span>
+      `;
+      
+      recordSummary.appendChild(countsDiv);
     }
-
     async function fetchSquadIdFromClubId(clubId) {
       const url = `${API_BASE}/clubs/${clubId}`;
       const response = await fetch(url);
@@ -2012,31 +1813,6 @@
       return playerMap;
     }
 
-    function calculateMatchRecord() {
-      if (allMatches.length === 0) return { wins: 0, draws: 0, losses: 0 };
-
-      let wins = 0, draws = 0, losses = 0;
-
-      allMatches.forEach((match) => {
-        const home = match.report?.home;
-        const away = match.report?.away;
-
-        if (!home || !away) return;
-
-        const homeGoals = home.playersStats?.reduce((sum, p) => sum + (p.goals || 0), 0) || 0;
-        const awayGoals = away.playersStats?.reduce((sum, p) => sum + (p.goals || 0), 0) || 0;
-
-        if (homeGoals > awayGoals) {
-          wins++;
-        } else if (homeGoals === awayGoals) {
-          draws++;
-        } else {
-          losses++;
-        }
-      });
-
-      return { wins, draws, losses };
-    }
     async function loadMatches() {
       const clubIdInput = document.getElementById("club-id").value.trim();
       const limitInput = document.getElementById("game-limit").value;
@@ -2386,21 +2162,6 @@
       return playerAggregates;
     }
 
-    function renderMatchRecord() {
-      const record = calculateMatchRecord();
-      const total = allMatches.length;
-
-      if (total === 0) return;
-
-      const winPct = ((record.wins / total) * 100).toFixed(1);
-      const drawPct = ((record.draws / total) * 100).toFixed(1);
-      const lossPct = ((record.losses / total) * 100).toFixed(1);
-
-      document.getElementById("win-percentage").textContent = `${winPct}%`;
-      document.getElementById("draw-percentage").textContent = `${drawPct}%`;
-      document.getElementById("loss-percentage").textContent = `${lossPct}%`;
-    }
-
     function renderHomeOverview() {
       const stats = calculateTeamStats();
       if (!stats) return;
@@ -2473,6 +2234,85 @@
       `;
     }
 
+    function aggregateTeamStats(playersStats) {
+      if (!playersStats) return null;
+
+      const stats = {
+        goals: 0, assists: 0, xG: 0, shots: 0, shotsOnTarget: 0, passes: 0, passesAccurate: 0,
+        crosses: 0, crossesAccurate: 0, chancesCreated: 0, fouls: 0, yellowCards: 0, redCards: 0,
+        avgRating: 0, defensiveDuelsWon: 0, dribbledPast: 0, shotsBlocked: 0, ownGoals: 0,
+      };
+
+      playersStats.forEach((player) => {
+        stats.goals += player.goals || 0;
+        stats.assists += player.assists || 0;
+        stats.xG += player.xG || 0;
+        stats.shots += player.shots || 0;
+        stats.shotsOnTarget += player.shotsOnTarget || 0;
+        stats.passes += player.passes || 0;
+        stats.passesAccurate += player.passesAccurate || 0;
+        stats.crosses += player.crosses || 0;
+        stats.crossesAccurate += player.crossesAccurate || 0;
+        stats.chancesCreated += player.chancesCreated || 0;
+        stats.fouls += player.foulsCommitted || 0;
+        stats.yellowCards += player.yellowCards || 0;
+        stats.redCards += player.redCards || 0;
+        stats.avgRating += player.rating || 0;
+        stats.defensiveDuelsWon += player.defensiveDuelsWon || 0;
+        stats.dribbledPast += player.dribbledPast || 0;
+        stats.shotsBlocked += player.shotsInterceptions || 0;
+        stats.ownGoals += player.ownGoals || 0;
+      });
+
+      stats.avgRating = (stats.avgRating / playersStats.length).toFixed(2);
+
+      return stats;
+    }
+
+    // SIMPLIFIED: Apply match filter using data attributes
+    function applyMatchFilter() {
+      const matchItems = document.querySelectorAll(".match-item");
+      
+      let visibleCount = 0;
+      
+      matchItems.forEach((item) => {
+        const homeGoals = parseInt(item.dataset.homeGoals) || 0;
+        const awayGoals = parseInt(item.dataset.awayGoals) || 0;
+        
+        // Determine result
+        let result;
+        if (homeGoals > awayGoals) {
+          result = "win";
+        } else if (homeGoals === awayGoals) {
+          result = "draw";
+        } else {
+          result = "loss";
+        }
+        
+        // Apply filter
+        let shouldShow = false;
+        if (currentMatchFilter === "all") {
+          shouldShow = true;
+        } else if (currentMatchFilter === "wins" && result === "win") {
+          shouldShow = true;
+        } else if (currentMatchFilter === "draws" && result === "draw") {
+          shouldShow = true;
+        } else if (currentMatchFilter === "losses" && result === "loss") {
+          shouldShow = true;
+        }
+        
+        if (shouldShow) {
+          item.classList.remove("filter-hidden");
+          visibleCount++;
+        } else {
+          item.classList.add("filter-hidden");
+        }
+      });
+
+      // Update match title count
+      const filterText = currentMatchFilter === "all" ? "" : ` (${currentMatchFilter.charAt(0).toUpperCase() + currentMatchFilter.slice(1)})`;
+      document.getElementById("matches-title").textContent = `Match History${filterText} (${visibleCount} matches)`;
+    }
     function sortPlayers(playerAggregates) {
       const players = Object.values(playerAggregates);
       const col = playerDetailSort.column;
@@ -2529,6 +2369,30 @@
       return players;
     }
 
+    function applyHiddenColumns() {
+      const table = document.getElementById("player-detail-table");
+      if (!table) return;
+
+      const allCols = ["name", "positions", "apps", "rating", "goals", "assists", "goalContribution", 
+                       "xg", "xgDiff", "conversionRate", "xgPerShot", "shots", "sot", "shotAcc", 
+                       "chancesCreated", "keyPassRate", "passes", "passAcc", "crosses", "crossAcc", 
+                       "dribbles", "dribbledPast", "defDuels", "clearances", "blocks", "shotsIntercepted", 
+                       "progressive", "fouls", "foulsSuffered", "yc", "rc", "ownGoals", "saves", "goalsConceded"];
+
+      allCols.forEach((col, index) => {
+        const th = table.querySelector(`th[data-col="${col}"]`);
+        const tds = table.querySelectorAll(`tbody tr td:nth-child(${index + 1})`);
+
+        if (hiddenPlayerCols.has(col)) {
+          if (th) th.classList.add("hidden-col");
+          tds.forEach(td => td.classList.add("hidden-col"));
+        } else {
+          if (th) th.classList.remove("hidden-col");
+          tds.forEach(td => td.classList.remove("hidden-col"));
+        }
+      });
+    }
+
     function renderPlayerDetail() {
       const playerAggregates = calculatePlayerStats();
       if (!playerAggregates) return;
@@ -2574,6 +2438,12 @@
         const positions = positionsArray.length > 0 ? positionsArray.join(" / ") : "-";
 
         const tr = document.createElement("tr");
+        tr.dataset.playerId = player.playerId;
+        
+        if (hiddenPlayerRows.has(player.playerId)) {
+          tr.classList.add("hidden-row");
+        }
+
         tr.innerHTML = `
           <td>${player.playerName}</td>
           <td>${positions}</td>
@@ -2610,45 +2480,19 @@
           <td>${player.saves}</td>
           <td>${player.goalsConceded}</td>
         `;
+
+        tr.addEventListener("click", () => {
+          hiddenPlayerRows.add(player.playerId);
+          tr.classList.add("hidden-row");
+        });
+
         tbody.appendChild(tr);
       });
+
+      applyHiddenColumns();
     }
 
-    function aggregateTeamStats(playersStats) {
-      if (!playersStats) return null;
-
-      const stats = {
-        goals: 0, assists: 0, xG: 0, shots: 0, shotsOnTarget: 0, passes: 0, passesAccurate: 0,
-        crosses: 0, crossesAccurate: 0, chancesCreated: 0, fouls: 0, yellowCards: 0, redCards: 0,
-        avgRating: 0, defensiveDuelsWon: 0, dribbledPast: 0, shotsBlocked: 0, ownGoals: 0,
-      };
-
-      playersStats.forEach((player) => {
-        stats.goals += player.goals || 0;
-        stats.assists += player.assists || 0;
-        stats.xG += player.xG || 0;
-        stats.shots += player.shots || 0;
-        stats.shotsOnTarget += player.shotsOnTarget || 0;
-        stats.passes += player.passes || 0;
-        stats.passesAccurate += player.passesAccurate || 0;
-        stats.crosses += player.crosses || 0;
-        stats.crossesAccurate += player.crossesAccurate || 0;
-        stats.chancesCreated += player.chancesCreated || 0;
-        stats.fouls += player.foulsCommitted || 0;
-        stats.yellowCards += player.yellowCards || 0;
-        stats.redCards += player.redCards || 0;
-        stats.avgRating += player.rating || 0;
-        stats.defensiveDuelsWon += player.defensiveDuelsWon || 0;
-        stats.dribbledPast += player.dribbledPast || 0;
-        stats.shotsBlocked += player.shotsInterceptions || 0;
-        stats.ownGoals += player.ownGoals || 0;
-      });
-
-      stats.avgRating = (stats.avgRating / playersStats.length).toFixed(2);
-
-      return stats;
-    }
-
+    // FIXED: Now stores goals in dataset attributes for reliable filtering
     function renderMatches() {
       const container = document.getElementById("matches-container");
 
@@ -2707,6 +2551,11 @@
 
         const matchDiv = document.createElement("div");
         matchDiv.className = "match-item";
+        matchDiv.dataset.matchId = match.matchId;
+        
+        // CRITICAL FIX: Store goals directly on the element for filtering
+        matchDiv.dataset.homeGoals = homeGoals;
+        matchDiv.dataset.awayGoals = awayGoals;
 
         const matchMain = document.createElement("div");
         matchMain.className = "match-main";
@@ -2715,7 +2564,10 @@
           <div class="match-header-row">
             <div class="match-title-section">
               <div class="match-teams-title">${homeName} vs ${awayName}</div>
-              <div class="match-meta">${new Date(match.date).toLocaleString()} | ID: ${match.matchId}</div>
+              <div class="match-meta">
+                ${new Date(match.date).toLocaleString()} | ID: ${match.matchId}
+                <a href="https://app.playmfl.com/matches/${match.matchId}" target="_blank" class="match-link">🔗 View on MFL</a>
+              </div>
             </div>
             <div class="match-actions">
               <button class="btn btn-danger" onclick="event.stopPropagation(); deleteMatch('${match.matchId}')">🗑️ Delete</button>
@@ -2813,12 +2665,17 @@
         matchDiv.appendChild(matchDetails);
 
         matchMain.addEventListener("click", (e) => {
-          if (e.target.closest(".btn-danger")) return;
+          if (e.target.closest(".btn-danger") || e.target.closest(".match-link")) return;
           matchDiv.classList.toggle("expanded");
         });
 
         container.appendChild(matchDiv);
       });
+
+      // CRITICAL FIX: Use setTimeout to ensure DOM is fully updated before filtering
+      setTimeout(() => {
+        applyMatchFilter();
+      }, 0);
     }
 
     function renderFullTeamStats(stats) {
@@ -3073,6 +2930,7 @@
       }
     }
 
+    // EVENT HANDLERS
     document.getElementById("load-btn").addEventListener("click", loadMatches);
     document.getElementById("add-match-btn").addEventListener("click", addMatch);
     document.getElementById("download-csv-btn").addEventListener("click", downloadCSV);
@@ -3096,8 +2954,11 @@
       if (e.key === "Enter") confirmSaveAnalysis();
     });
 
+    // Player detail table sorting
     document.querySelectorAll("#player-detail-table th[data-col]").forEach((th) => {
-      th.addEventListener("click", () => {
+      th.addEventListener("click", (e) => {
+        if (e.target.classList.contains("hide-col-btn")) return;
+        
         const col = th.getAttribute("data-col");
         if (playerDetailSort.column === col) {
           playerDetailSort.asc = !playerDetailSort.asc;
@@ -3106,6 +2967,38 @@
           playerDetailSort.asc = false;
         }
         renderPlayerDetail();
+      });
+    });
+
+    // Hide column buttons
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("hide-col-btn")) {
+        e.stopPropagation();
+        const col = e.target.dataset.hideCol;
+        hiddenPlayerCols.add(col);
+        applyHiddenColumns();
+      }
+    });
+
+    // Restore all rows button
+    document.getElementById("restore-all-rows-btn").addEventListener("click", () => {
+      hiddenPlayerRows.clear();
+      renderPlayerDetail();
+    });
+
+    // Restore all columns button
+    document.getElementById("restore-all-cols-btn").addEventListener("click", () => {
+      hiddenPlayerCols.clear();
+      applyHiddenColumns();
+    });
+
+    // Match filter buttons
+    document.querySelectorAll(".filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentMatchFilter = btn.dataset.filter;
+        applyMatchFilter();
       });
     });
 
